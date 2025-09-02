@@ -1,4 +1,4 @@
-import { Controller, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Logger, ParseIntPipe } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -30,12 +30,16 @@ export class ProductsController {
   //@Patch(':id')
   @MessagePattern({ cmd: 'update_product' })
   update(@Payload() updateProductDto: UpdateProductDto) {
+    Logger.log(
+      `Updating product with ID: ${updateProductDto.id}`,
+      'ProductsController',
+    );
     return this.productsService.update(updateProductDto.id, updateProductDto);
   }
 
   //@Delete(':id')
   @MessagePattern({ cmd: 'remove_product' })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Payload('id', ParseIntPipe) id: number) {
     return this.productsService.remove(id);
   }
 }
