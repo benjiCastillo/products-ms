@@ -11,7 +11,6 @@ import { RpcException } from '@nestjs/microservices';
 export class ProductsService extends PrismaClient implements OnModuleInit {
   async onModuleInit() {
     await this.$connect();
-    console.log('Connected to database');
   }
 
   create(createProductDto: CreateProductDto) {
